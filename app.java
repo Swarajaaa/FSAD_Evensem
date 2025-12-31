@@ -1,38 +1,38 @@
 package com.klu;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+
 public class app {
     public static void main(String[] args) {
-        // CREATE
-        Session session = hibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        student s1 = new student(101, "Jay", "CSE");
-        session.save(s1);
+        Product p1 = new Product("Laptop", "Gaming Laptop", 75000, 10);
+        Product p2 = new Product("Mouse", "Wireless Mouse", 800, 50);
+        Product p3 = new Product("Keyboard", "Mechanical Keyboard", 2500, 30);
+        session.save(p1);
+        session.save(p2);
+        session.save(p3);
         tx.commit();
         session.close();
-        System.out.println("Student Inserted");
-        // READ
-        session = hibernateUtil.getSessionFactory().openSession();
-        student s = session.get(student.class, 101);
-        System.out.println(s.getName() + " " + s.getDept());
+        System.out.println("Products Inserted");
+        session = HibernateUtil.getSessionFactory().openSession();
+        Product product = session.get(Product.class, p1.getId());
+        System.out.println("Retrieved: " + product.getName());
         session.close();
-        // UPDATE
-        session = hibernateUtil.getSessionFactory().openSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         tx = session.beginTransaction();
-        s.setDept("AI & DS");
-        session.update(s);
+        product.setPrice(72000);
+        product.setQuantity(8);
+        session.update(product);
         tx.commit();
         session.close();
-        System.out.println("Student Updated");
-        /*DELETE
-        session = hibernateUtil.getSessionFactory().openSession();
+        System.out.println("Product Updated");
+        session = HibernateUtil.getSessionFactory().openSession();
         tx = session.beginTransaction();
-        session.delete(s);
+        session.delete(product);
         tx.commit();
         session.close();
-        System.out.println("Student Deleted");
-        */
+        System.out.println("Product Deleted");
     }
-
-
 }
